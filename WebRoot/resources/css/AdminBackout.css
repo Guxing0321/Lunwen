@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+#searchButton{
+	left: 12%;
+    position: relative;
+}
+#chaxunDiv{
+	left:5%;
+	width: 100%;
+}
+#searchDiv{
+	background-color:grey;
+    height: 192px;
+    left: 3%;
+    top: 32%;
+    width: 23%;
+    position: absolute;
+}
+#DetailDiv {
+	background-color: #eee;
+	border-radius: 20px;
+	width: 50%;
+	height: 80%;
+	margin: -85px 10%;
+	left:15%;
+	opacity: 1;
+	position: absolute;
+}
+#backout {
+	background-color: #eee;
+	border-radius: 20px;
+	width: 50%;
+	height: 80%;
+	margin: -85px 10%;
+	left:15%;
+	opacity: 1;
+	position: absolute;
+	z-index: 100;
+}

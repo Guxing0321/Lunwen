@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+#searchDiv{
+	left:5%;
+	position: absolute;
+}
+#searchButton{
+	left: 45%;
+    position: relative;
+}

@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+#searchDiv{
+	left:5%;
+	position: absolute;
+}
+#searchButton{
+	left: 46%;
+    position: relative;
+}
+#chaxunDiv{
+	left:2%;
+	width: 100%;
+}
+#items{
+	width: 100%;
+}
+#backoutBtndiv{
+	right: 10%;
+}

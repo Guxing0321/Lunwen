@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kekemile.mapper.LunwenCheckMapper">
+
+
+
+
+	<!-- 查询所有的titlle信息 -->
+
+	<sql id="uncheckTitle_where">
+		<where>
+			l.status != '通过'
+
+			<if test="lwname != null and lwname != ''">
+				and l.lwname like '%${lwname}%'
+			</if>
+			<if test="workplace != null and workplace != ''">
+				and l.workplace like '%${workplace}%'
+			</if>
+			<if test="isnamenuist != null and isnamenuist != ''">
+				and l.isNameNuist=#{isnamenuist}
+			</if>
+			<if test="doi != null and doi != ''">
+				and l.doi like '%${doi}%'
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="searchAUncheckedTitle" parameterType="UncheckLunwenVo"
+		resultMap="titleMap">
+		SELECT
+		l.lwId as
+		lwId,l.lwName as lwName,l.author as author,l.workplace
+		as workplace,
+		l.publishTime as publishTime,l.referTitle as referTitle,
+		(select Score from user where Email = l.email ) as thisTitleScore,l.isNameNuist as isNameNuist,l.doi
+		as doi,
+		l.mName as mName,l.mCodeNum as mCodeNum,l.mType as
+		mType,l.status as status,l.email as email
+		FROM
+		lunwen l
+		<include refid="uncheckTitle_where" />
+		limit #{start}, #{size}
+	</select>
+
+
+
+	<resultMap id="titleMap" type="com.kekemile.po.Lunwen"
+		autoMapping="true">
+
+		<id column="lwId" property="lwid" />
+		<result column="lwName" property="lwname" />
+		<result column="author" property="author" />
+		<result column="workplace" property="workplace" />
+		<result column="publishTime" property="publishtime" />
+		<result column="thisTitleScore" property="thistitlescore" />
+		<result column="isNameNuist" property="isnamenuist" />
+		<result column="doi" property="doi" />
+		<result column="referTitle" property="refertitle" />
+		<result column="mName" property="mname" />
+		<result column="mCodeNum" property="mcodenum" />
+		<result column="mType" property="mtype" />
+
+	</resultMap>
+
+	<!-- 根据论文条件查询论文的信息的条数 -->
+	<select id="searchAUncheckedTitleCount" parameterType="UncheckLunwenVo"
+		resultType="int">
+		SELECT
+		count(*)
+		FROM
+		lunwen l
+		<include refid="uncheckTitle_where" />
+	</select>
+
+
+
+	<!-- 根据id查询论文信息 -->
+	<select id="searchTitleById" parameterType="int" resultMap="titleMap">
+		SELECT
+		l.lwId as
+		lwId,l.lwName as lwName,l.author as author,l.workplace
+		as workplace,
+		l.publishTime as publishTime,l.referTitle as referTitle,
+		l.thisTitleScore as thisTitleScore,l.isNameNuist as isNameNuist,l.doi
+		as doi,
+		l.mName as mName,l.mCodeNum as mCodeNum,l.mType as mType,l.email as email
+		FROM
+		lunwen l
+		where
+		l.lwId=#{id}
+	</select>
+
+
+	<!-- 根绝id审核论文的信息 -->
+	<update id="checkLuwenById" parameterType="CheckLunwen">
+		update lunwen
+
+		<!-- set标签作用: 第一可以自动添加set关键字, 第二可以去掉最后一个更新的逗号 -->
+		<set>
+
+			<if test="isnamenuist != null and  isnamenuist != ''">
+				isNameNuist=#{isnamenuist},
+			</if>
+			<if test="doiIsWork != null and  doiIsWork != ''">
+				doiIsWork=#{doiIsWork},
+			</if>
+
+			<if test="status != null and  status != ''">
+				status=#{status},
+			</if>
+
+			<if test="beizhu != null and  beizhu != ''">
+				beizhu=#{beizhu},
+			</if>
+
+		</set>
+		where lwId=#{lwid}
+	</update>
+
+	<update id="updateScoreByEmail" parameterType="UpdateScoreVo">
+		update user set Score = Score + #{score} where Email = #{email}
+
+	</update>
+
+
+</mapper>

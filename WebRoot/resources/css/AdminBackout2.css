@@ -1,0 +1,63 @@
+@CHARSET "UTF-8";
+.autocomplete{
+border: 1px solid #eee;
+background-color: white;
+text-align: left;
+}
+.autocomplete li{
+list-style-type: none;
+z-index: 9999;
+}
+.clickable {
+cursor: default;
+}
+.highlight {
+background-color: #eee;
+}
+#tableDiv{
+    left: 26%;
+    top: 28%;
+    position: absolute;
+    width: 50%;
+    z-index: -1;
+}
+.tablestyle {
+	padding: 8px 5px;
+	border: 1px solid #ccc;
+	width: 70%;
+	border-radius: 2px;
+	background: #fcfcfc;
+	color: #666;
+}
+
+.button {
+	padding: 8px 5px;
+	border: 1px solid #ccc;
+	width: 40%;
+	border-radius: 2px;
+	background: #fcfcfc;
+	color: #666;
+}
+#leavedetail{
+	position: absolute;
+}
+
+#searchDiv{
+	border-radius: 12px;
+	background-color:#dbdcda;
+    height: 192px;
+    left: 1%;
+    top: 26%;
+    width: 23%;
+    position: absolute;
+}
+#tableDivInfo{
+    top: 42%;
+	width: 50%;
+	left: 26%;
+	position: absolute;
+	  z-index: -1;
+}
+#errorDiv{
+	z-index:1; 
+}

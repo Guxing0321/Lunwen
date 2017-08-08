@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+
+#div1{
+	width:700px;
+	heigth:200px;
+	position: absolute;
+}
+#di,#d2{
+	width:700px;
+	heigth:100px;
+	position: absolute;
+	
+}
+#div3{
+	width:200px;
+	heigth:200px;
+	left:75%;
+	position: absolute;
+}
+
+#div2{
+	width:100%;
+	left:10px;
+} 

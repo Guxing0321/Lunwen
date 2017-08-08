@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kekemile.mapper.UserMapper">
+
+	<!--用户登录验证 -->
+	<select id="selectByNameAndPassword" parameterType="com.kekemile.po.UserLoginVo"
+		resultType="com.kekemile.po.User">
+		select Name,Password,Email,Score,TypeId from user where email=#{email} and
+		password=#{password}
+	</select>
+
+	<!--根据用户的邮箱更改用户的密码 -->
+	<update id="modifyPwdByEmail" parameterType="ModifyPwdVo">
+		update user set Password = #{newpassword} where Email = #{email}
+
+	</update>
+
+</mapper>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kekemile.mapper.LunwenMapper">
+
+
+
+
+	<!-- 查询所有的titlle信息 -->
+
+	<sql id="title_where">
+		<where>
+			l.email = #{email}
+
+			<if test="lwname != null and lwname != ''">
+				and l.lwname like '%${lwname}%'
+			</if>
+			<if test="workplace != null and workplace != ''">
+				and l.workplace like '%${workplace}%'
+			</if>
+			<if test="status != null and status != ''">
+				and l.status=#{status}
+			</if>
+			<if test="doi != null and doi != ''">
+				and l.doi like '%${doi}%'
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="searchAllTitle" parameterType="LunwenVo" resultMap="titleMap">
+		SELECT
+		l.lwId as
+		lwId,l.lwName as lwName,l.author as author,l.workplace
+		as workplace,
+		l.publishTime as publishTime,l.referTitle as referTitle,
+		(select Score from user where Email = l.email ) as thisTitleScore,l.isNameNuist as isNameNuist,l.doi
+		as doi,
+		l.mName as mName,l.mCodeNum as mCodeNum,l.mType as
+		mType,l.status as status,l.email as email,l.beizhu as beizhu
+		FROM
+		lunwen l
+		<include refid="title_where" />
+		limit #{start}, #{size}
+	</select>
+
+	<resultMap id="titleMap" type="Lunwen" autoMapping="true">
+
+		<id column="lwId" property="lwid" />
+		<result column="lwName" property="lwname" />
+		<result column="author" property="author" />
+		<result column="workplace" property="workplace" />
+		<result column="publishTime" property="publishtime" />
+		<result column="thisTitleScore" property="thistitlescore" />
+		<result column="isNameNuist" property="isnamenuist" />
+		<result column="doi" property="doi" />
+		<result column="referTitle" property="refertitle" />
+		<result column="mName" property="mname" />
+		<result column="mCodeNum" property="mcodenum" />
+		<result column="mType" property="mtype" />
+
+	</resultMap>
+
+
+	<!-- 查询信息条数 -->
+
+	<select id="searchAllTitleCount" parameterType="LunwenVo"
+		resultType="int">
+		SELECT
+		count(*)
+		FROM
+		lunwen l
+		<include refid="title_where" />
+	</select>
+
+	<!-- 根据id查询论文信息 -->
+	<select id="searchTitleById" parameterType="int" resultMap="titleMap">
+		SELECT
+		l.lwId as
+		lwId,l.lwName as lwName,l.author as author,l.workplace
+		as workplace,
+		l.publishTime as publishTime,l.referTitle as referTitle,
+		l.thisTitleScore as thisTitleScore,l.isNameNuist as isNameNuist,l.doi
+		as doi,
+		l.mName as mName,l.mCodeNum as mCodeNum,l.mType as
+		mType,l.email as email,l.beizhu as beizhu
+		FROM
+		lunwen l
+		where
+		l.lwId=#{id}
+	</select>
+
+
+	<!-- 添加论文信息 -->
+	<insert id="insertTitle" parameterType="Lunwen">
+
+		insert
+		into
+		lunwen
+		(lwName,author,workplace,publishTime,thisTitleScore,
+		isNameNuist,doi,referTitle,mName,mCodeNum,mType,email)
+		values
+		(#{lwname},#{author},#{workplace},#{publishtime},
+		#{thistitlescore},#{isnamenuist},#{doi},#{refertitle},
+		#{mname},#{mcodenum},#{mtype},#{email}
+		);
+
+	</insert>
+
+	<!-- 通过lwID删除论文信息 -->
+	<delete id="deleteLunwenById" parameterType="Integer">
+		delete from lunwen
+		where lwId = #{lwId}
+	</delete>
+
+
+
+
+	<!-- 根绝id修改论文的信息 -->
+	<update id="updateLuwenById" parameterType="Lunwen">
+		update lunwen
+
+		<!-- set标签作用: 第一可以自动添加set关键字, 第二可以去掉最后一个更新的逗号 -->
+		<set>
+			<if test="lwname != null and  lwname != ''">
+				lwName=#{lwname} ,
+			</if>
+			<if test="author != null and author != ''">
+				author=#{author},
+			</if>
+			<if test="workplace != null and  workplace != ''">
+				workplace=#{workplace},
+			</if>
+			<if test="publishtime != null and  publishtime != ''">
+				publishTime=#{publishtime},
+			</if>
+			<if test="thistitlescore != null and  thistitlescore != ''">
+				thisTitleScore=#{thistitlescore},
+			</if>
+			<if test="isnamenuist != null and  isnamenuist != ''">
+				isNameNuist=#{isnamenuist},
+			</if>
+			<if test="doi != null and doi != ''">
+				doi=#{doi},
+			</if>
+			<if test="refertitle != null and  refertitle != ''">
+				referTitle=#{refertitle},
+			</if>
+			<if test="mname != null and  mname != ''">
+				mName=#{mname},
+			</if>
+			<if test="mtype != null and  mtype != ''">
+				mType=#{mtype},
+			</if>
+			<if test="mcodenum != null and  mcodenum != ''">
+				mCodeNum=#{mcodenum},
+			</if>
+		</set>
+		where lwId=#{lwid}
+	</update>
+
+
+	<!-- 找出论文中所有的doi信息 -->
+	<select id="searchAllTitleDoi" resultType="String">
+		SELECT
+		doi
+		FROM
+		lunwen
+	</select>
+<!-- 找出论文中所有的workplace信息 -->
+	<select id="searchAllWorkplace" resultType="String">
+		SELECT
+		workplace
+		FROM
+		lunwen
+	</select>
+	<!-- 找出论文中所有的lwname信息 -->
+	<select id="searchAllLwname" resultType="String">
+		SELECT
+		lwName
+		FROM
+		lunwen
+	</select>
+
+
+</mapper>

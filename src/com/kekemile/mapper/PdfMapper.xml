@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kekemile.mapper.PdfMapper">
+
+
+
+<!-- 插入论文pdf信息 -->
+<insert id="insertPdf" parameterType="PDFinfo">
+
+        insert
+		into
+		pdf
+		(pName,pPath,pDoi)
+		values
+		(#{pName},#{pPath},#{pDoi})
+
+</insert>
+
+<!-- 根据论文的doi信息查询论文 -->
+<select id="selectPdfByDoi" parameterType="String" resultType="PDFinfo">
+  select id, pName,pPath,pDoi from pdf where pDoi = #{pDoi}
+</select>
+
+</mapper>
